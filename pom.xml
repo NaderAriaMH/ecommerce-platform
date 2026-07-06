@@ -9,10 +9,47 @@
 
     <name>ecommerce-platform</name>
     <url>http://maven.apache.org</url>
+    <modules>
+        <module>commons/common-core</module>
+        <module>commons/common-data</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>25</java.version>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
+        <spring-boot.version>4.1.0</spring-boot.version>
+        <mapstruct.version>1.6.3</mapstruct.version>
+        <jjwt.version>0.13.0</jjwt.version>
+        <lobbok.version>1.18.46</lobbok.version>
+        <spring.context.version>7.0.8</spring.context.version>
+        <jakarta.validation.version>3.1.1</jakarta.validation.version>
+        <springframework.spring-data.version>4.1.0</springframework.spring-data.version>
+        <common-core.version>1.0-SNAPSHOT</common-core.version>
     </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <build>
+        <pluginManagement>
+            <plugins>
 
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <release>${java.version}</release>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>
