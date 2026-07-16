@@ -12,6 +12,7 @@
     <modules>
         <module>commons/common-core</module>
         <module>commons/common-data</module>
+        <module>commons/common-security</module>
     </modules>
      <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,11 +22,10 @@
         <mapstruct.version>1.6.3</mapstruct.version>
         <jjwt.version>0.13.0</jjwt.version>
         <lombok.version>1.18.46</lombok.version>
-        <spring.context.version>7.0.8</spring.context.version>
         <jakarta.validation.version>3.1.1</jakarta.validation.version>
-        <springframework.spring-data.version>4.1.0</springframework.spring-data.version>
         <common-core.version>1.0-SNAPSHOT</common-core.version>
         <common-data.version>1.0-SNAPSHOT</common-data.version>
+        <common-security.version>1.0-SNAPSHOT</common-security.version>
     </properties>
     <dependencyManagement>
         <dependencies>

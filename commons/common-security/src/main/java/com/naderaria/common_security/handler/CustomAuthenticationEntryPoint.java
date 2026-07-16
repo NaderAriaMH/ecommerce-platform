@@ -1,5 +1,4 @@
-package com.naderaria.identity.application.service;
-
+package com.naderaria.common_security.handler;
 
 import com.naderaria.common_core.dto.response.ErrorResponse;
 import com.naderaria.common_core.util.MessageService;
@@ -20,7 +19,6 @@ import java.io.OutputStream;
 @RequiredArgsConstructor
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-
     private final MessageService messageService;
 
     @Override
@@ -34,7 +32,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
                 request.getRequestURI(),
                 authException.toString()
         );
-
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());

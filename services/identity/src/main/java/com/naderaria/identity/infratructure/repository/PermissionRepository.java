@@ -17,12 +17,11 @@ public interface PermissionRepository extends JpaRepository<Permission, Long>, J
         };
     }
 
-    static Specification<Permission> duplicatePermission(String operation, String targetType, String targetScope) {
+    static Specification<Permission> duplicatePermission(String operation, String targetType) {
         return (root, query, cb) ->
                 cb.and(
                         cb.equal(root.get("operation"), operation),
-                        cb.equal(root.get("targetType"), targetType),
-                        cb.equal(root.get("targetScope"), targetScope)
+                        cb.equal(root.get("targetType"), targetType)
                 );
     }
 

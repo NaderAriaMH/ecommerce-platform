@@ -26,9 +26,6 @@ public class Permission extends BaseEntity {
     @Column(name = "target_type", nullable = false)
     private String targetType; // USER,ManagementType,
 
-    @Column(name = "target_scope", nullable = false)
-    private String targetScope; // "OWN", "ALL", "DEPARTMENT",.....
-
     @Column(name = "title", nullable = false)
     private String title; // نمایش برای UI یا مدیر سیستم
 

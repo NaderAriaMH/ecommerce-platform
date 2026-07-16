@@ -1,6 +1,5 @@
 package com.naderaria.identity.application.internal;
 
-import com.naderaria.identity.api.dto.permission.response.ResPermissionDto;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,7 +30,7 @@ public class IntUserAuthenticationDto implements UserDetails {
     private boolean enabled;
 
     private List<String> roleNames;
-    private List<ResPermissionDto> permissions;
+
 
     public IntUserAuthenticationDto(Long id, String username, String password, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled) {
         setId(id);

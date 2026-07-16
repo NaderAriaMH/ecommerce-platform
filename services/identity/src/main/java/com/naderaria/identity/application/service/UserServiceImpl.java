@@ -2,8 +2,10 @@ package com.naderaria.identity.application.service;
 
 import com.naderaria.common_core.dto.request.PaginationDto;
 import com.naderaria.common_core.dto.response.PageResponse;
-import com.naderaria.common_core.util.MessageService;
 import com.naderaria.common_data.mapper.PageMapper;
+import com.naderaria.common_security.dto.CurrentUserDto;
+import com.naderaria.common_security.dto.JwtTokenDto;
+import com.naderaria.common_security.service.JwtService;
 import com.naderaria.identity.api.dto.authentication.request.ReqLoginDto;
 import com.naderaria.identity.api.dto.authentication.respone.ResTokenDto;
 import com.naderaria.identity.api.dto.user.request.ReqUserDto;
@@ -11,7 +13,6 @@ import com.naderaria.identity.api.dto.user.request.ReqUserUpdatableDto;
 import com.naderaria.identity.api.dto.user.response.ResUpdatableUserDto;
 import com.naderaria.identity.api.dto.user.response.ResUserDto;
 import com.naderaria.identity.api.dto.user.response.ResUserPageItemDto;
-import com.naderaria.identity.application.internal.IntUserAuthenticationDto;
 import com.naderaria.identity.application.mapper.UserMapper;
 import com.naderaria.identity.infratructure.domin.Role;
 import com.naderaria.identity.infratructure.domin.User;
@@ -31,6 +32,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,8 +42,6 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 
 @Service
@@ -53,7 +53,6 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
     private final PageMapper pageMapper;
-    private final MessageService messageService;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final UserRoleRepository userRoleRepository;
@@ -68,15 +67,13 @@ public class UserServiceImpl implements UserService {
         final String username = reqLoginDto.username();
         final String password = reqLoginDto.password();
 
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        Authentication authenticate = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
-        final IntUserAuthenticationDto user = getUserAuthentication(username);
-
-        String accessToken = jwtService.generateToken(user.getUsername());
-        String refreshToken = jwtService.generateRefreshToken(user.getUsername());
-
+        CurrentUserDto currentUserDto = (CurrentUserDto) authenticate.getPrincipal();
+        String accessToken = jwtService.generateToken(currentUserDto);
+        String refreshToken = jwtService.generateRefreshToken(currentUserDto);
         return new ResTokenDto(accessToken, refreshToken);
-
     }
 
     @Override
@@ -94,13 +91,12 @@ public class UserServiceImpl implements UserService {
 
         if (StringUtils.isNotBlank(username)) {
 
-            final IntUserAuthenticationDto user = getUserAuthentication(username);
+            final CurrentUserDto currentUserDto = getUserAuthentication(username);
 
+            if (jwtService.isTokenValid(refreshToken, currentUserDto.getUsername())) {
 
-            if (jwtService.isTokenValid(refreshToken, user.getUsername())) {
-
-                String accessToken = jwtService.generateToken(user.getUsername());
-                refreshToken = jwtService.generateRefreshToken(user.getUsername());
+                String accessToken = jwtService.generateToken(currentUserDto);
+                refreshToken = jwtService.generateRefreshToken(currentUserDto);
 
                 ResTokenDto resTokenDto = new ResTokenDto(accessToken, refreshToken);
 
@@ -115,11 +111,10 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    private IntUserAuthenticationDto getUserAuthentication(final String username) {
+    private CurrentUserDto getUserAuthentication(final String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> UsernameNotFoundException.fromUsername(username));
     }
-
 
     @Override
     @Transactional
@@ -129,13 +124,12 @@ public class UserServiceImpl implements UserService {
         return userMapper.toResUserPageItemDto(users);
     }
 
-
     @Override
     @Transactional
     public ResUserDto getProfile(Long id) {
-        IntUserAuthenticationDto currentUser = (IntUserAuthenticationDto)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(id != null && currentUser != null) {
-            if(currentUser.getId().equals(id)){
+        JwtTokenDto jwtTokenDto = (JwtTokenDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (id != null && jwtTokenDto != null) {
+            if (jwtTokenDto.id().equals(id)) {
                 User user = userRepository.findById(id).orElseThrow(NullPointerException::new);
                 return userMapper.toResUserDto(user);
             }
@@ -174,19 +168,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void update(Long id, ReqUserUpdatableDto reqUserUpdatableDto){
+    public void update(Long id, ReqUserUpdatableDto reqUserUpdatableDto) {
         User oldUser = userRepository.findById(id).orElseThrow(NullPointerException::new);
-        userMapper.update(reqUserUpdatableDto,oldUser);
+        userMapper.update(reqUserUpdatableDto, oldUser);
         userRepository.save(oldUser);
     }
-
-
 
     @Override
     @Transactional
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
-
 
 }

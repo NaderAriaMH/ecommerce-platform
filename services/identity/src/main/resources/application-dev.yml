@@ -1,3 +1,4 @@
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/ecom-identity
@@ -14,3 +15,5 @@ token:
   access:
     token:
       expiration: 2592000000
+server:
+  port: 9090
