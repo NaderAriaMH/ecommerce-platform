@@ -1,7 +1,7 @@
-package com.naderaria.identity.infratructure.filter;
+package com.naderaria.common_security.filter;
 
-import com.naderaria.identity.application.service.CustomUserDetailService;
-import com.naderaria.identity.application.service.JwtServiceImpl;
+import com.naderaria.common_security.dto.JwtTokenDto;
+import com.naderaria.common_security.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -20,8 +19,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JwtServiceImpl jwtServiceImpl;
-    private final CustomUserDetailService customUserDetailService;
+    private final JwtService jwtService;
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -36,18 +35,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         final String jwt = authorizationHeader.substring(7);
-        final String username = jwtServiceImpl.extractUsername(jwt);
+        final String username = jwtService.extractUsername(jwt);
 
         if (!username.isBlank()
                 && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = customUserDetailService.userDetailService().loadUserByUsername(username);
 
-            if (jwtServiceImpl.isTokenValid(jwt, userDetails.getUsername())) {
+            if (jwtService.isTokenValid(jwt, username)) {
+                JwtTokenDto jwtTokenDto = jwtService.extractJwtTokenDot(jwt);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userDetails,
+                        jwtTokenDto,
                         null,
-                        userDetails.getAuthorities()
+                        jwtTokenDto.authorities()
                 );
 
                 authentication.setDetails(

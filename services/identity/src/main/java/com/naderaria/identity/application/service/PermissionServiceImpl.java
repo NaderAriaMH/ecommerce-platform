@@ -40,7 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor//todo refactor this class
 public class PermissionServiceImpl implements PermissionService {
 
     private final PermissionRepository permissionRepository;
@@ -68,7 +68,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Transactional
     @Override
-    public PageResponse<ResPermissionPageItemDto> getAllPermissionsByRoleId(PaginationDto paginationDto, long roleId) {//todo this is not work;
+    public PageResponse<ResPermissionPageItemDto> getAllPermissionsByRoleId(PaginationDto paginationDto, long roleId) {//todo refactor this block;
         Pageable pageable = pageMapper.convertToPageable(paginationDto);
         Page<Permission> permissions = rolePermissionRepository.findAllPermission(RolePermissionRepository.searchByRoleId(roleId), pageable);
         return permissionMapper.toResPermissionPageItemDto(permissions);
@@ -106,7 +106,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     private void validateDuplicatePermission(Permission permission) {
         if (permissionRepository.exists(PermissionRepository
-                .duplicatePermission(permission.getOperation(), permission.getTargetType(), permission.getTargetScope())))
+                .duplicatePermission(permission.getOperation(), permission.getTargetType())))
             throw new DuplicateDataException("Permission is already exists");
     }
 
@@ -208,7 +208,7 @@ public class PermissionServiceImpl implements PermissionService {
     public PageResponse<ResRolePermissionPageItemDto> getAllRolePermissions(PaginationDto paginationDto) {
         Pageable pageable = pageMapper.convertToPageable(paginationDto);
         Page<RolePermission> rolePermissions = rolePermissionRepository.findAll(pageable);
-        Map<Role, Permission> rolePermissionMap = new HashMap<>();//TODO can't put all rolePermissions into rolePermissionMap,becuase role key is duplicate*/
+        Map<Role, Permission> rolePermissionMap = new HashMap<>();//TODO can't put all rolePermissions into rolePermissionMap, role key is duplicate*/
         rolePermissions.stream().forEach(rolePermission -> rolePermissionMap.put(rolePermission.getRole(), rolePermission.getPermission()));
         return rolePermissionMapper.toResRolePermissionPageItemDto(rolePermissions);//TODO can't convert map to page
     }
@@ -220,7 +220,7 @@ public class PermissionServiceImpl implements PermissionService {
         validateDuplicateRolePermission(rolePermission);
         rolePermissionRepository.save(rolePermission);
         try {
-            return new URI(ServletUriComponentsBuilder.fromCurrentContextPath().path("/lab/permission/role/").toUriString() + rolePermission.getId());
+            return new URI(ServletUriComponentsBuilder.fromCurrentContextPath().path("/permission/role/").toUriString() + rolePermission.getId());
         } catch (Exception e) {
             e.printStackTrace();
         }

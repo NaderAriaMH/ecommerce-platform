@@ -88,6 +88,11 @@
             <version>${common-data.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.naderaria</groupId>
+            <artifactId>common-security</artifactId>
+            <version>${common-security.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${mapstruct.version}</version>

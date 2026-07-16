@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan({
         "com.naderaria.common_core",
         "com.naderaria.common_data",
+        "com.naderaria.common_security",
         "com.naderaria.identity"
 })
 
