@@ -1,6 +1,6 @@
 package com.naderaria.common_security.service;
 
-
+import com.naderaria.common_security.config.JwtProperties;
 import com.naderaria.common_security.dto.CurrentUserDto;
 import com.naderaria.common_security.dto.JwtTokenDto;
 import io.jsonwebtoken.Claims;
@@ -8,7 +8,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -24,28 +23,16 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtServiceImpl implements JwtService {
 
-
-    @Value("${token.signing.key}")
-    private String jwtSigningKey;
-
-    @Value("${token.refresh.signing.key}")
-    private String jwtRefreshSigningKey;
-
-    @Value("${token.access.token.expiration}")
-    private long accessTokenExpiration;
-
-    @Value("${token.refresh.token.expiration}")
-    private long refreshTokenExpiration;
-
+    private final JwtProperties jwtProperties;
 
     @Override
     public String generateToken(CurrentUserDto currentUserDto){
-        return generateToken(extractClaims(currentUserDto),currentUserDto.getUsername(), accessTokenExpiration);
+        return generateToken(extractClaims(currentUserDto),currentUserDto.getUsername(),jwtProperties.getAccessTokenExpiration());
     }
 
     @Override
     public String generateRefreshToken(CurrentUserDto currentUserDto){
-        return "REFRESH_" + generateToken(extractClaims(currentUserDto),currentUserDto.getUsername(), refreshTokenExpiration,jwtRefreshSigningKey);
+        return "REFRESH_" + generateToken(extractClaims(currentUserDto),currentUserDto.getUsername(),jwtProperties.getRefreshTokenExpiration(),jwtProperties.getRefreshSigningKey());
     }
 
     private Map<String,Object> extractClaims(CurrentUserDto currentUserDto){
@@ -68,7 +55,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private String generateToken(Map<String, Object> extraClaims, String username, long expiration) {
-        return generateToken(extraClaims, username, expiration, jwtSigningKey);
+        return generateToken(extraClaims, username, expiration, jwtProperties.getSigningKey());
     }
 
     private String generateToken(Map<String, Object> extraClaims, String username, long expiration, String signingKey) {
@@ -100,7 +87,7 @@ public class JwtServiceImpl implements JwtService {
     private Claims extractClaims(String token) {
         return Jwts
                 .parser()
-                .verifyWith(getSigningKey(jwtSigningKey))
+                .verifyWith(getSigningKey(jwtProperties.getSigningKey()))
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();

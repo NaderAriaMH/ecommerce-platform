@@ -71,7 +71,6 @@ public class UserController {
         return ResponseEntity.ok(resUserDto);
     }
 
-
     @PutMapping("/user/{id}")
     @PreAuthorize("hasRole('User') and hasPermission('User','update')")
     public ResponseEntity<?> update(@PathVariable("id") Long id, @Validated @RequestBody ReqUserUpdatableDto reqUserUpdatableDto) {
