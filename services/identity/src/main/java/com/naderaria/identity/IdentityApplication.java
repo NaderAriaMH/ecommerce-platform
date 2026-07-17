@@ -2,6 +2,7 @@ package com.naderaria.identity;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
@@ -10,6 +11,9 @@ import org.springframework.context.annotation.ComponentScan;
         "com.naderaria.common_data",
         "com.naderaria.common_security",
         "com.naderaria.identity"
+})
+@ConfigurationPropertiesScan({
+        "com.naderaria.common_security"
 })
 
 public class IdentityApplication {
