@@ -13,6 +13,8 @@
         <module>commons/common-core</module>
         <module>commons/common-data</module>
         <module>commons/common-security</module>
+        <module>services/identity</module>
+        <module>services/product</module>
     </modules>
      <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -57,14 +59,14 @@
                 <configuration>
                     <annotationProcessorPaths>
                         <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${mapstruct.version}</version>
-                        </path>
-                        <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
                         </path>
                         <path>
                             <groupId>org.projectlombok</groupId>

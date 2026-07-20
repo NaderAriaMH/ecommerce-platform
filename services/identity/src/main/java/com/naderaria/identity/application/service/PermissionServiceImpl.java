@@ -6,7 +6,7 @@ import com.naderaria.common_core.dto.response.PageResponse;
 import com.naderaria.common_core.exception.DataReferencedException;
 import com.naderaria.common_core.exception.DuplicateDataException;
 import com.naderaria.common_core.util.MessageService;
-import com.naderaria.common_data.mapper.PageMapper;
+import com.naderaria.common_data.utils.PageConvertor;
 import com.naderaria.identity.api.dto.permission.request.ReqPermissionDto;
 import com.naderaria.identity.api.dto.permission.request.ReqUpdatablePermissionDto;
 import com.naderaria.identity.api.dto.permission.response.ResPermissionPageItemDto;
@@ -50,13 +50,13 @@ public class PermissionServiceImpl implements PermissionService {
     private final RoleMapper roleMapper;
     private final RolePermissionMapper rolePermissionMapper;
     private final MessageService messageService;
-    private final PageMapper pageMapper;
+
 
 
     @Transactional
     @Override
     public PageResponse<ResPermissionPageItemDto> getAllPermissions(PaginationDto paginationDto, String targetType) {
-        Pageable pageable = pageMapper.convertToPageable(paginationDto);
+        Pageable pageable = PageConvertor.convertToPageable(paginationDto);
         Page<Permission> permissions;
         if (targetType != null && !targetType.isBlank()) {
             permissions = permissionRepository.findAll(PermissionRepository.searchByTargetType(targetType), pageable);
@@ -69,7 +69,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Transactional
     @Override
     public PageResponse<ResPermissionPageItemDto> getAllPermissionsByRoleId(PaginationDto paginationDto, long roleId) {//todo refactor this block;
-        Pageable pageable = pageMapper.convertToPageable(paginationDto);
+        Pageable pageable = PageConvertor.convertToPageable(paginationDto);
         Page<Permission> permissions = rolePermissionRepository.findAllPermission(RolePermissionRepository.searchByRoleId(roleId), pageable);
         return permissionMapper.toResPermissionPageItemDto(permissions);
     }
@@ -140,7 +140,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Transactional
     @Override
     public PageResponse<ResRolePageItemDto> getAllRoles(PaginationDto paginationDto, String title) {
-        Pageable pageable = pageMapper.convertToPageable(paginationDto);
+        Pageable pageable = PageConvertor.convertToPageable(paginationDto);
         Page<Role> roles;
         if (title != null && title.isBlank()) {
             roles = roleRepository.findAll(RoleRepository.searchByTitle(title), pageable);
@@ -206,7 +206,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Transactional
     @Override
     public PageResponse<ResRolePermissionPageItemDto> getAllRolePermissions(PaginationDto paginationDto) {
-        Pageable pageable = pageMapper.convertToPageable(paginationDto);
+        Pageable pageable = PageConvertor.convertToPageable(paginationDto);
         Page<RolePermission> rolePermissions = rolePermissionRepository.findAll(pageable);
         Map<Role, Permission> rolePermissionMap = new HashMap<>();//TODO can't put all rolePermissions into rolePermissionMap, role key is duplicate*/
         rolePermissions.stream().forEach(rolePermission -> rolePermissionMap.put(rolePermission.getRole(), rolePermission.getPermission()));

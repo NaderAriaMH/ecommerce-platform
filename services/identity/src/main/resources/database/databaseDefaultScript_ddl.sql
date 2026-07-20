@@ -55,6 +55,52 @@ insert into tb_permission(id,operation,target_type,target_scope,title)
 values(nextval('prm_seq'),'delete','UserRole','ALL','Permission Delete On UserRole Table');
 
 
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'write','Category','ALL','Permission Write On Category Table');
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'read','Category','ALL','Permission Read On Category Table');
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'update','Category','ALL','Permission Update On Category Table');
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'delete','Category','ALL','Permission Delete On Category Table');
+
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'write','Currency','ALL','Permission Write On Currency Table');
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'read','Currency','ALL','Permission Read On Currency Table');
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'update','Currency','ALL','Permission Update On Currency Table');
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'delete','Currency','ALL','Permission Delete On Currency Table');
+
+
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'write','Inventory','ALL','Permission Write On Inventory Table');
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'read','Inventory','ALL','Permission Read On Inventory Table');
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'update','Inventory','ALL','Permission Update On Inventory Table');
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'delete','Inventory','ALL','Permission Delete On Inventory Table');
+
+
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'write','Price','ALL','Permission Write On Price Table');
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'read','Price','ALL','Permission Read On Price Table');
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'update','Price','ALL','Permission Update On Price Table');
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'delete','Price','ALL','Permission Delete On Price Table');
+
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'write','Product','ALL','Permission Write On Product Table');
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'read','Product','ALL','Permission Read On Product Table');
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'update','Product','ALL','Permission Update On Product Table');
+insert into tb_permission(id,operation,target_type,target_scope,title)
+values(nextval('prm_seq'),'delete','Product','ALL','Permission Delete On Product Table');
 
 
 
@@ -117,6 +163,49 @@ values(nextval('role_per_seq'),1,19);
 
 insert into tb_role_permission(id,fk_role,fk_permission)
 values(nextval('role_per_seq'),1,20);
+
+
+
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,21);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,22);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,23);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,24);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,25);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,26);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,27);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,28);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,29);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,30);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,31);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,32);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,33);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,34);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,35);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,36);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,37);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,38);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,39);
+insert into tb_role_permission(id,fk_role,fk_permission)
+values(nextval('role_per_seq'),1,40);
 
 
 ---user
