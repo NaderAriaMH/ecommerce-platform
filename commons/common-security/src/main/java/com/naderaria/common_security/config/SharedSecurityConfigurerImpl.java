@@ -1,6 +1,7 @@
 package com.naderaria.common_security.config;
 
 import com.naderaria.common_security.filter.JwtAuthenticationFilter;
+import com.naderaria.common_security.filter.JwtConfigurer;
 import com.naderaria.common_security.handler.CustomAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,10 +13,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CommonBaseSecurityConfigImpl implements CommonBaseSecurityConfig {
+public class SharedSecurityConfigurerImpl implements SharedSecurityConfigurer {
 
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtConfigurer jwtConfigurer;
     private final AccessDeniedHandler accessDeniedHandler;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
@@ -23,11 +24,11 @@ public class CommonBaseSecurityConfigImpl implements CommonBaseSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(eh -> {
                             eh.authenticationEntryPoint(customAuthenticationEntryPoint);
                             eh.accessDeniedHandler(accessDeniedHandler);
                         }
                 );
+        jwtConfigurer.configure(http);
     }
 }

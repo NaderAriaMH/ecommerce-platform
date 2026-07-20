@@ -1,7 +1,7 @@
 package com.naderaria.identity.application.mapper;
 
 import com.naderaria.common_core.dto.response.PageResponse;
-import com.naderaria.common_data.mapper.PageMapper;
+import com.naderaria.common_data.utils.PageConvertor;
 import com.naderaria.identity.api.dto.role_permission.request.ReqRolePermissionDto;
 import com.naderaria.identity.api.dto.role_permission.request.ReqUpdatableRolePermissionDto;
 import com.naderaria.identity.api.dto.role_permission.response.ResRolePermissionDto;
@@ -25,7 +25,7 @@ public interface RolePermissionMapper {
 
 
     default PageResponse<ResRolePermissionPageItemDto> toResRolePermissionPageItemDto(Page<RolePermission> rolePermissions) {
-        return PageMapper.toPageableDto(rolePermissions, this::toResRolePermissionPageItemDto);
+        return PageConvertor.toPageableDto(rolePermissions, this::toResRolePermissionPageItemDto);
     }
 
 

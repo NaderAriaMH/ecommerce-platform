@@ -2,7 +2,7 @@ package com.naderaria.identity.application.service;
 
 import com.naderaria.common_core.dto.request.PaginationDto;
 import com.naderaria.common_core.dto.response.PageResponse;
-import com.naderaria.common_data.mapper.PageMapper;
+import com.naderaria.common_data.utils.PageConvertor;
 import com.naderaria.common_security.dto.CurrentUserDto;
 import com.naderaria.common_security.dto.JwtTokenDto;
 import com.naderaria.common_security.service.JwtService;
@@ -51,7 +51,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
-    private final PageMapper pageMapper;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final UserRoleRepository userRoleRepository;
@@ -115,7 +114,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public PageResponse<ResUserPageItemDto> getUsers(PaginationDto reqBasePaginationDto) {
-        Pageable pageable = pageMapper.convertToPageable(reqBasePaginationDto);
+        Pageable pageable = PageConvertor.convertToPageable(reqBasePaginationDto);
         Page<User> users = userRepository.findAll(pageable);
         return userMapper.toResUserPageItemDto(users);
     }

@@ -1,7 +1,6 @@
-
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/ecom-identity
+    url: jdbc:postgresql://localhost:5432/ecom-product
     username: lab_group
     password: modnit484848
 security:
@@ -11,4 +10,4 @@ security:
     access-token-expiration: 2592000000
     refresh-token-expiration: 2592000000
 server:
-  port: 8080
+  port: 8081

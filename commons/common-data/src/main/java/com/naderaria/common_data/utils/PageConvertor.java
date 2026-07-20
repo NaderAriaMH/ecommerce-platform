@@ -1,11 +1,9 @@
-package com.naderaria.common_data.mapper;
+package com.naderaria.common_data.utils;
 
 import com.naderaria.common_core.dto.request.PaginationDto;
 import com.naderaria.common_core.dto.response.PageItem;
 import com.naderaria.common_core.dto.response.PageResponse;
 import com.naderaria.common_data.domin.BaseEntity;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,10 +12,9 @@ import org.springframework.data.domain.Sort;
 import java.util.List;
 import java.util.function.Function;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface PageMapper {
+public interface PageConvertor {
 
-    default Pageable convertToPageable(PaginationDto paginationDto) {
+    static Pageable convertToPageable(PaginationDto paginationDto) {
         return PageRequest.of((paginationDto.getPageNumber() <= 0 ? 0 : paginationDto.getPageNumber() - 1),
                 paginationDto.getPageSize(), createSort(paginationDto.isSortAscending(), paginationDto.getSortParams()));
     }
@@ -35,7 +32,17 @@ public interface PageMapper {
         );
     }
 
-    private Sort createSort(boolean isSortAscending, String... sortParams) {
+    static <R extends PageItem> PageResponse<R> pageDtoListToPageableDto(Page<R> pageDtoList) {
+        List<R> pageItems = pageDtoList.getContent().stream().toList();
+        return new PageResponse<>(
+                pageItems,
+                pageDtoList.getPageable().getPageNumber(),
+                pageDtoList.getTotalPages(),
+                pageDtoList.getTotalElements()
+        );
+    }
+
+    static Sort createSort(boolean isSortAscending, String... sortParams) {
         Sort.Direction direction = (isSortAscending ? Sort.Direction.ASC : Sort.Direction.DESC);
         return (sortParams != null && sortParams.length != 0) ?
                 Sort.by(direction, sortParams) :
