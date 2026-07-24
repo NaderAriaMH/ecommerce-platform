@@ -1,6 +1,6 @@
 package com.naderaria.product.application.mapper;
 
-import com.naderaria.product.api.dto.request.ReqPriceDto;
+import com.naderaria.product.web.controller.dto.request.ReqPriceDto;
 import com.naderaria.product.infratructure.domain.model.Price;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;

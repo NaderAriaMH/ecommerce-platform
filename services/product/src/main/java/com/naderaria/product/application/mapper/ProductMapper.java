@@ -2,12 +2,10 @@ package com.naderaria.product.application.mapper;
 
 import com.naderaria.common_core.dto.response.PageResponse;
 import com.naderaria.common_data.utils.PageConvertor;
-import com.naderaria.product.api.dto.request.ReqProductDto;
-import com.naderaria.product.api.dto.request.ReqUpdatableProductDto;
-import com.naderaria.product.api.dto.response.ResInventoryDto;
-import com.naderaria.product.api.dto.response.ResPriceDto;
-import com.naderaria.product.api.dto.response.ResProductDto;
-import com.naderaria.product.api.dto.response.ResProductPageItemDto;
+import com.naderaria.product.web.controller.dto.request.ReqProductDto;
+import com.naderaria.product.web.controller.dto.request.ReqUpdatableProductDto;
+import com.naderaria.product.web.controller.dto.response.ResProductDto;
+import com.naderaria.product.web.controller.dto.response.ResProductPageItemDto;
 import com.naderaria.product.infratructure.domain.model.Product;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;

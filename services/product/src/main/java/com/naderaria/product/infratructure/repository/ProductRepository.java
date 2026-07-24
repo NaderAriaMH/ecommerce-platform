@@ -1,13 +1,19 @@
 package com.naderaria.product.infratructure.repository;
 
-import com.naderaria.product.api.dto.response.ResProductPageItemDto;
+import com.naderaria.product.web.controller.dto.intrernal.ProductSummeryDto;
+import com.naderaria.product.web.controller.dto.response.ResProductPageItemDto;
 import com.naderaria.product.infratructure.domain.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -28,12 +34,17 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     boolean existsByCategoryId(@PathVariable("categoryId") Long categoryId);
 
-   /* @Query(value = """
-                    select new com.naderaria.ecommerce_platform.product.api.dto.internal.IntProductSummeryDto(p.id,p.name,p.price,p.stockQuantity)
+    @Query(value = """
+        select p.price.amount from Product as p where p.id = :id
+""")
+    Optional<BigDecimal> getProductByProductId(@Param("id") Long id);
+
+   @Query(value = """
+                    select new com.naderaria.product.api.dto.ProductSummeryDto(p.id,p.name,p.price.amount)
                     from Product as p
                     where p.id in(:productIds)
             """)
-    Optional<List<ProductSummeryDto>> getProductsNameMap(@Param("productIds") List<Long> productIds);*/
+    Optional<List<ProductSummeryDto>> getProductsNameMap(@Param("productIds") List<Long> productIds);
 
 }
 
