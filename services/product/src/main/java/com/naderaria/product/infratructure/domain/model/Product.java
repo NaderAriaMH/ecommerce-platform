@@ -98,5 +98,12 @@ public class Product extends BaseEntity {
         this.statusType = ProductStatusType.OUT_OF_STOCK;
     }
 
+    public final Integer getAvailableQuantity() {
+        return this.inventory.getAvailableQuantity();
+    }
+
+    public final BigDecimal getFinalPrice() {
+        return this.price.getFinalPrice();
+    }
 
 }

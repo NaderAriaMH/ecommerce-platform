@@ -2,10 +2,10 @@ package com.naderaria.product.application.mapper;
 
 import com.naderaria.common_core.dto.response.PageResponse;
 import com.naderaria.common_data.utils.PageConvertor;
-import com.naderaria.product.api.dto.request.ReqCategoryDto;
-import com.naderaria.product.api.dto.request.ReqUpdatableCategoryDto;
-import com.naderaria.product.api.dto.response.ResCategoryDto;
-import com.naderaria.product.api.dto.response.ResCategoryPageItemDto;
+import com.naderaria.product.web.controller.dto.request.ReqCategoryDto;
+import com.naderaria.product.web.controller.dto.request.ReqUpdatableCategoryDto;
+import com.naderaria.product.web.controller.dto.response.ResCategoryDto;
+import com.naderaria.product.web.controller.dto.response.ResCategoryPageItemDto;
 import com.naderaria.product.infratructure.domain.model.Category;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;

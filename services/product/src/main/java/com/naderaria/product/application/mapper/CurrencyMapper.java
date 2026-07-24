@@ -2,10 +2,10 @@ package com.naderaria.product.application.mapper;
 
 import com.naderaria.common_core.dto.response.PageResponse;
 import com.naderaria.common_data.utils.PageConvertor;
-import com.naderaria.product.api.dto.request.ReqCurrencyDto;
-import com.naderaria.product.api.dto.request.ReqUpdatableCurrencyDto;
-import com.naderaria.product.api.dto.response.ResCurrencyDto;
-import com.naderaria.product.api.dto.response.ResCurrencyPageItemDto;
+import com.naderaria.product.web.controller.dto.request.ReqCurrencyDto;
+import com.naderaria.product.web.controller.dto.request.ReqUpdatableCurrencyDto;
+import com.naderaria.product.web.controller.dto.response.ResCurrencyDto;
+import com.naderaria.product.web.controller.dto.response.ResCurrencyPageItemDto;
 import com.naderaria.product.infratructure.domain.model.Currency;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;

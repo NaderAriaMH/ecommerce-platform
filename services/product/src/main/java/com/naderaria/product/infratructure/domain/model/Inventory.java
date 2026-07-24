@@ -25,7 +25,7 @@ public class Inventory extends BaseEntity {
     @Column(name = "reserved_quantity")
     private int reservedQuantity;// تعداد کالاهای رزرو شده
 
-    public int getAvailableQuantity() {
+    public Integer getAvailableQuantity() {
         return this.quantity - this.reservedQuantity;
     }
 
